@@ -5,6 +5,11 @@ from connect4 import Connect4Game, Player
 
 
 class Connect4Ui:
+    PLAYER_TO_SYMBOL = {
+        Player.FIRST: 'X',
+        Player.SECOND: 'O',
+    }
+
     def __init__(self, game: Connect4Game) -> None:
         self.game = game
 
@@ -20,7 +25,7 @@ class Connect4Ui:
     def show(self) -> None:
         """Print out game board on console."""
         self._clear_screen()
-        print("Player {} turn [{}]".format(self.game.current_player, 'X' if self.game.current_player == Player.FIRST else 'O'))
+        print("Player {} turn [{}]".format(self.game.current_player, self.PLAYER_TO_SYMBOL[self.game.current_player]))
         print("+---------------------------+")
         for row in range(self.game.board.shape[0]):
             for column in range(self.game.board.shape[1]):
@@ -53,7 +58,7 @@ class Connect4Ui:
         if winner is None:
             print("\n\nTIE!!!")
         else:
-            print("\n\nPLAYER {} [{}] WON!!!".format(winner, 'X' if winner == Player.FIRST else 'O'))
+            print("\n\nPLAYER {} [{}] WON!!!".format(winner, self.PLAYER_TO_SYMBOL[winner]))
 
 
 def main():
