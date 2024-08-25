@@ -40,45 +40,9 @@ class Connect4Ui:
         print("| 0   1   2   3   4   5   6 |")
         print("+---------------------------+")
 
-    def get_player_move(self) -> int:
-        """Asks the user for a valid move to play.
-
-        Returns:
-            int: Selected column index.
-        """
-        print("Enter a number between 0 and 6:", end="")
-        column = int(input())
-        while True:
-            if self.game.is_valid_move(column):
-                return column
-            print("Invalid column, enter a number between 0 and 6:", end="")
-            column = int(input())
-
     def show_winner(self, winner: Player) -> None:
         if winner is None:
             print("\n\nTIE!!!")
         else:
             print("\n\nPLAYER {} [{}] WON!!!".format(winner, self.PLAYER_TO_SYMBOL[winner]))
-
-
-def main():
-    game = Connect4Game()
-    ui = Connect4Ui(game)
-
-    # Game loop
-    while True:
-        ui.show()
-
-        # Check game over
-        game_over, winner = game.check_win()
-        if game_over is True:
-            ui.show_winner(winner)
-            break
-
-        column = ui.get_player_move()
-        game.play_move(column)
-        game.switch_turn()
-
-if __name__ == "__main__":
-    main()
 
