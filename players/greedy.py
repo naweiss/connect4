@@ -10,9 +10,9 @@ class GreedyPlayer:
         self.game = game
 
     def choose_move(self) -> int:
-        best_column, best_score = 0, float('-inf')
+        best_column, best_score = -1, float('-inf')
         for column in range(self.game.board.shape[1]):
             score = self.evaluator.evaluate(column)
-            if score > best_score:
+            if score >= best_score and self.game.is_valid_move(column):
                 best_column, best_score = column, score
         return best_column

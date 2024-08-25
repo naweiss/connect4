@@ -8,5 +8,7 @@ class RandomPlayer:
         self.game = game
 
     def choose_move(self) -> int:
-        column = np.random.randint(self.game.board.shape[1])
-        return column
+        while True:
+            column = np.random.randint(self.game.board.shape[1])
+            if self.game.is_valid_move(column):
+                return column
