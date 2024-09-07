@@ -1,6 +1,6 @@
-from connect4 import Connect4Game
-
 import numpy as np
+
+from connect4 import Connect4Game
 
 
 class RandomPlayer:

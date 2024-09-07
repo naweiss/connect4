@@ -17,61 +17,57 @@ class GreedyEvaluator:
         7: float('inf'),
     }
 
-    def __init__(self, game: Connect4Game) -> None:
-        self.game = game
-
     @classmethod
-    def _evaluate_rows(cls, future_game: Connect4Game) -> float:
+    def _evaluate_rows(cls, game: Connect4Game) -> float:
         score = 0
-        for row in range(future_game.board.shape[0]):
-            for player, pieces in itertools.groupby(future_game.board[row, :]):
-                if player == future_game.current_player:
+        for row in range(game.board.shape[0]):
+            for player, pieces in itertools.groupby(game.board[row, :]):
+                if player == game.current_player:
                     score += cls.LENGTH_TO_SCORE[len(list(pieces))]
         return score
 
     @classmethod
-    def _evaluate_columns(cls, future_game: Connect4Game) -> float:
+    def _evaluate_columns(cls, game: Connect4Game) -> float:
         score = 0
-        for column in range(future_game.board.shape[1]):
-            for player, pieces in itertools.groupby(future_game.board[:, column]):
-                if player == future_game.current_player:
+        for column in range(game.board.shape[1]):
+            for player, pieces in itertools.groupby(game.board[:, column]):
+                if player == game.current_player:
                     score += cls.LENGTH_TO_SCORE[len(list(pieces))]
         return score
 
     @classmethod
-    def _evaluate_diagonals(cls, future_game: Connect4Game) -> float:
+    def _evaluate_diagonals(cls, game: Connect4Game) -> float:
         score = 0
-        for diagonal_offset in range(-future_game.board.shape[1] + 1, future_game.board.shape[1]):
-            diagonal = np.diagonal(future_game.board, offset=diagonal_offset)
-            second_diagonal = np.diagonal(np.fliplr(future_game.board), offset=diagonal_offset)
+        for diagonal_offset in range(-game.board.shape[1] + 1, game.board.shape[1]):
+            diagonal = np.diagonal(game.board, offset=diagonal_offset)
+            second_diagonal = np.diagonal(np.fliplr(game.board), offset=diagonal_offset)
 
             for player, pieces in itertools.groupby(diagonal):
-                if player == future_game.current_player:
+                if player == game.current_player:
                     score += cls.LENGTH_TO_SCORE[len(list(pieces))]
 
             for player, pieces in itertools.groupby(second_diagonal):
-                if player == future_game.current_player:
+                if player == game.current_player:
                     score += cls.LENGTH_TO_SCORE[len(list(pieces))]
 
         return score
 
     @classmethod
-    def other_player_can_win(cls, future_game: Connect4Game) -> bool:
-        for column in range(future_game.board.shape[1]):
-            next_future_game = deepcopy(future_game)
-            next_future_game.switch_turn()
-            next_future_game.play_move(column)
-            game_over, winner = next_future_game.check_win()
+    def other_player_can_win(cls, game: Connect4Game) -> bool:
+        for column in range(game.board.shape[1]):
+            future_game = deepcopy(game)
+            future_game.switch_turn()
+            future_game.play_move(column)
+            game_over, winner = future_game.check_win()
             if game_over:
                 return True
         return False
 
-    def evaluate(self, column: int) -> float:
-        future_game = deepcopy(self.game)
-        future_game.play_move(column)
-
-        score = self._evaluate_rows(future_game) + self._evaluate_columns(future_game) + self._evaluate_diagonals(future_game)
-        if score != float('inf'):
-            if self.other_player_can_win(future_game):
-                return float('-inf')
+    @classmethod
+    def evaluate(cls, game: Connect4Game) -> float:
+        score = cls._evaluate_rows(game) + cls._evaluate_columns(game) + cls._evaluate_diagonals(game)
+        if score == float('inf') or game.check_tie(): # game ended
+            return score
+        if cls.other_player_can_win(game): # make sure other player can we first
+            return float('-inf')
         return score

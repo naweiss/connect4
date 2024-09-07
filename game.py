@@ -1,6 +1,5 @@
 from connect4 import Connect4Game, Player
 from connect4gui import Connect4Ui
-from players.human import HumanPlayer
 from players.greedy import GreedyPlayer
 from players.random import RandomPlayer
 
