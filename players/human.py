@@ -2,10 +2,10 @@ from connect4 import Connect4Game
 
 
 class HumanPlayer:
-    def __init__(self, game: Connect4Game) -> None:
-        self.game = game
+    """Human player for connect4 game"""
 
-    def prompt_for_move(self) -> int:
+    @staticmethod
+    def _prompt_for_move() -> int:
         """Asks the user for a move to play.
 
         Returns:
@@ -18,13 +18,16 @@ class HumanPlayer:
             except ValueError:
                 pass
 
-    def choose_move(self) -> int:
+    def choose_move(self, game: Connect4Game) -> int:
         """Asks the user for a valid move to play.
+
+        Args:
+            game (Connect4Game): the connect4 game to play the move in
 
         Returns:
             int: Selected column index.
         """
         while True:
-            column = self.prompt_for_move()
-            if self.game.is_valid_move(column):
+            column = self._prompt_for_move()
+            if game.is_valid_move(column):
                 return column

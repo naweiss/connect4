@@ -1,3 +1,4 @@
+from typing import Optional
 import sys
 import os
 
@@ -5,6 +6,8 @@ from connect4 import Connect4Game, Player
 
 
 class Connect4Ui:
+    """Console base UI for connect4 game"""
+
     PLAYER_TO_SYMBOL = {
         Player.FIRST: 'X',
         Player.SECOND: 'O',
@@ -40,7 +43,8 @@ class Connect4Ui:
         print("| 0   1   2   3   4   5   6 |")
         print("+---------------------------+")
 
-    def show_winner(self, winner: Player) -> None:
+    def show_winner(self, winner: Optional[Player]) -> None:
+        """Print the winner of the game"""
         if winner is None:
             print("\n\nTIE!!!")
         else:

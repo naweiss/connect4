@@ -1,13 +1,15 @@
+import numpy as np
+
 from connect4 import Connect4Game, Player
 from connect4gui import Connect4Ui
 from players.greedy import GreedyPlayer
 from players.random import RandomPlayer
 
 
-def main():
-    game = Connect4Game()
+def main() -> None:
+    game = Connect4Game(starting_player=np.random.choice(list(Player)))
     ui = Connect4Ui(game)
-    players = [GreedyPlayer(game), RandomPlayer(game)]
+    players = [GreedyPlayer(), RandomPlayer()]
 
     # Game loop
     while True:
@@ -20,7 +22,7 @@ def main():
             break
 
         current_player = players[0] if game.current_player == Player.FIRST else players[1]
-        column = current_player.choose_move()
+        column = current_player.choose_move(game)
         game.play_move(column)
         game.switch_turn()
 

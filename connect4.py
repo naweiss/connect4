@@ -12,10 +12,10 @@ class Player(IntEnum):
 
 
 class Connect4Game:
-    """Connect4 game board class."""
+    """Connect4 game board"""
 
-    def __init__(self) -> None:
-        self.current_player: Player = np.random.choice(list(Player))
+    def __init__(self, starting_player: Player) -> None:
+        self.current_player: Player = starting_player
         self.board: np.ndarray = np.zeros(shape=(6, 7))
 
     def is_valid_move(self, column: int) -> bool:
