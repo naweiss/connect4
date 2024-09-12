@@ -19,7 +19,7 @@ class Connect4Game:
         self.board: np.ndarray = np.zeros(shape=(6, 7))
 
     def is_valid_move(self, column: int) -> bool:
-        """Check if a move can be applied to board.
+        """Check if a move can be applied to the board.
 
         Args:
             column (int): Selected column index (starts from 0).
