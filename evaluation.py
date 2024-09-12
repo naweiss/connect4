@@ -3,7 +3,7 @@ import itertools
 
 import numpy as np
 
-from connect4 import Connect4Game, Player
+from connect4 import Connect4Game
 
 
 class GreedyEvaluator:

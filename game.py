@@ -25,5 +25,6 @@ def main():
         game.play_move(column)
         game.switch_turn()
 
+
 if __name__ == "__main__":
     main()

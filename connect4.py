@@ -1,8 +1,7 @@
-"""base on https://github.com/Gualor/connect4-montecarlo/blob/master/scripts/connect4_mcts.py"""
+"""Based on https://github.com/Gualor/connect4-montecarlo/blob/master/scripts/connect4_mcts.py"""
 
-from typing import Tuple, List, Optional
+from typing import Tuple, Optional
 from enum import IntEnum, auto
-import os
 
 import numpy as np
 
@@ -66,20 +65,20 @@ class Connect4Game:
         """
         winner = self._check_rows()
         if winner:
-            return (True, winner)
+            return True, winner
 
         winner = self._check_cols()
         if winner:
-            return (True, winner)
+            return True, winner
 
         winner = self._check_diag()
         if winner:
-            return (True, winner)
+            return True, winner
 
         if self._check_tie():
-            return (True, None)
+            return True, None
 
-        return (False, None)
+        return False, None
 
     @staticmethod
     def _all_identical(array: np.ndarray) -> bool:

@@ -1,7 +1,5 @@
 from connect4 import Connect4Game
 
-import numpy as np
-
 
 class HumanPlayer:
     def __init__(self, game: Connect4Game) -> None:
