@@ -3,6 +3,8 @@ from copy import deepcopy
 from connect4 import Connect4Game
 from evaluation import GreedyEvaluator
 
+DEPTH = 4
+
 
 class AlphaBetaPlayer:
     """Player for connect4 game which uses the AlphaBeta algorithm"""
@@ -21,6 +23,55 @@ class AlphaBetaPlayer:
         future_game = deepcopy(game)
         future_game.play_move(column)
         return GreedyEvaluator.evaluate(future_game)
+
+    @staticmethod
+    def minimax(game: Connect4Game, depth, alpha, beta, maximizing_player):
+        # TODO: implement get_valid_locations()
+        valid_locations = game.get_valid_locations()
+        is_win, winner = game.check_win()
+        if is_win:
+            if winner is maximizing_player:
+                return None, float('inf')
+            elif winner is None:
+                return None, 0
+            else:  # Game is over, no more valid moves
+                return None, float('-inf')
+        elif depth == 0:
+            return None, GreedyEvaluator.evaluate(game)
+
+        if maximizing_player:
+            # TODO: FIX
+            value = float('-inf')
+            column = -1
+            for col in valid_locations:
+                row = get_next_open_row(board, col)
+                b_copy = board.copy()
+                drop_piece(b_copy, row, col, AI_PIECE)
+                new_score = minimax(b_copy, depth - 1, alpha, beta, False)[1]
+                if new_score > value:
+                    value = new_score
+                    column = col
+                alpha = max(alpha, value)
+                if alpha >= beta:
+                    break
+            return column, value
+
+        else:  # Minimizing player
+            # TODO: FIX
+            value = float('inf')
+            column = -1
+            for col in valid_locations:
+                row = get_next_open_row(board, col)
+                b_copy = board.copy()
+                drop_piece(b_copy, row, col, PLAYER_PIECE)
+                new_score = minimax(b_copy, depth - 1, alpha, beta, True)[1]
+                if new_score < value:
+                    value = new_score
+                    column = col
+                beta = min(beta, value)
+                if alpha >= beta:
+                    break
+            return column, value
 
     def choose_move(self, game: Connect4Game) -> int:
         """Asks the user for a valid move to play.

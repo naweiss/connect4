@@ -66,8 +66,8 @@ class GreedyEvaluator:
     @classmethod
     def evaluate(cls, game: Connect4Game) -> float:
         score = cls._evaluate_rows(game) + cls._evaluate_columns(game) + cls._evaluate_diagonals(game)
-        if score == float('inf') or game.check_tie(): # game ended
+        if score == float('inf') or game.check_tie():  # game ended
             return score
-        if cls.other_player_can_win(game): # make sure other player can we first
+        if cls.other_player_can_win(game):  # make sure other player can be first
             return float('-inf')
         return score
