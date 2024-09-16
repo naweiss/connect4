@@ -103,7 +103,7 @@ class Connect4Game:
         """
         for row in range(self.board.shape[0]):
             for column in range(self.board.shape[1] - 3):
-                if self._all_identical(self.board[row, column : column + 4]):
+                if self._all_identical(self.board[row, column: column + 4]):
                     return Player(self.board[row, column])
 
     def _check_cols(self) -> Optional[Player]:
@@ -114,7 +114,7 @@ class Connect4Game:
         """
         for column in range(self.board.shape[1]):
             for row in range(self.board.shape[0] - 3):
-                if self._all_identical(self.board[row : row + 4, column]):
+                if self._all_identical(self.board[row: row + 4, column]):
                     return Player(self.board[row, column])
 
     def _check_diag(self) -> Optional[Player]:

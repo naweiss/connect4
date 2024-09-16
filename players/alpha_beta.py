@@ -18,14 +18,14 @@ class AlphaBetaPlayer:
     """Player for connect4 game which uses the AlphaBeta algorithm"""
 
     @staticmethod
-    def minimax(game: Connect4Game, depth, alpha, beta, maximizing_player) -> (int, float):
-        is_win, winner = game.check_win()
-        if is_win:
-            if winner is maximizing_player:
+    def minimax(game: Connect4Game, eval_player, depth, alpha, beta, maximizing_player=True) -> (int, float):
+        game_over, winner = game.check_win()
+        if game_over:
+            if winner is eval_player:
                 return -1, float('inf')
             elif winner is None:
                 return -1, 0
-            else:  # Game is over, no more valid moves
+            else:
                 return -1, float('-inf')
         elif depth == 0:
             return -1, GreedyEvaluator.evaluate(game)
@@ -34,33 +34,33 @@ class AlphaBetaPlayer:
 
         if maximizing_player:
             value = float('-inf')
-            column = -1
+            best_col = -1
             for col in valid_locations:
                 future_game = deepcopy(game)
-                future_game.play_move(column)
-                new_score = AlphaBetaPlayer.minimax(future_game, depth - 1, alpha, beta, False)[1]
+                future_game.play_move(col)
+                new_score = AlphaBetaPlayer.minimax(future_game, eval_player, depth - 1, alpha, beta, False)[1]
                 if new_score > value:
                     value = new_score
-                    column = col
+                    best_col = col
                 alpha = max(alpha, value)
                 if alpha >= beta:
                     break
-            return column, value
+            return best_col, value
 
         else:  # Minimizing player
             value = float('inf')
-            column = -1
+            best_col = -1
             for col in valid_locations:
                 future_game = deepcopy(game)
-                future_game.play_move(column)
-                new_score = AlphaBetaPlayer.minimax(future_game, depth - 1, alpha, beta, True)[1]
+                future_game.play_move(col)
+                new_score = AlphaBetaPlayer.minimax(future_game, eval_player, depth - 1, alpha, beta, True)[1]
                 if new_score < value:
                     value = new_score
-                    column = col
+                    best_col = col
                 beta = min(beta, value)
                 if alpha >= beta:
                     break
-            return column, value
+            return best_col, value
 
     def choose_move(self, game: Connect4Game) -> int:
         """Asks the user for a valid move to play.
@@ -71,4 +71,4 @@ class AlphaBetaPlayer:
         Returns:
             int: Selected column index.
         """
-        return self.minimax(game, DEPTH, float('-inf'), float('-inf'), True)[0]
+        return self.minimax(game, game.current_player, DEPTH, float('-inf'), float('inf'))[0]

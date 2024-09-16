@@ -3,6 +3,7 @@ from copy import deepcopy
 from connect4 import Connect4Game
 from evaluation import GreedyEvaluator
 
+
 class GreedyPlayer:
     """Greedy player for connect4 game"""
 
