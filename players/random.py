@@ -7,7 +7,7 @@ class RandomPlayer:
     """Player for connect4 game which play random moves"""
 
     def choose_move(self, game: Connect4Game) -> int:
-        """Asks the user for a valid move to play.
+        """Choose a valid move to play in the game
 
         Args:
             game (Connect4Game): the connect4 game to play the move in

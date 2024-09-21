@@ -20,10 +20,11 @@ class GreedyPlayer:
         """
         future_game = deepcopy(game)
         future_game.play_move(column)
-        return GreedyEvaluator.evaluate(future_game)
+        future_game.switch_turn()
+        return GreedyEvaluator.evaluate(future_game, game.current_player)
 
     def choose_move(self, game: Connect4Game) -> int:
-        """Asks the user for a valid move to play.
+        """Choose a valid move to play in the game
 
         Args:
             game (Connect4Game): the connect4 game to play the move in

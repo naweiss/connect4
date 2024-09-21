@@ -65,9 +65,6 @@ class Connect4Game:
         Returns:
             Tuple[bool, Player | None]: Game has ended, winner or None.
         """
-        if self.check_tie():
-            return True, None
-
         winner = self._check_rows()
         if winner:
             return True, winner
@@ -79,6 +76,9 @@ class Connect4Game:
         winner = self._check_diag()
         if winner:
             return True, winner
+
+        if self.check_tie():
+            return True, None
 
         return False, None
 
