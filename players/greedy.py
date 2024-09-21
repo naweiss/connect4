@@ -32,10 +32,12 @@ class GreedyPlayer:
         Returns:
             int: Selected column index.
         """
-        best_column, best_score = -1, float('-inf')
+        best_column, best_score = 0, float('-inf')
         for column in range(Connect4Game.BOARD_SIZE[1]):
-            if game.is_valid_move(column):
-                score = self._evaluate_move(game, column)
-                if score >= best_score and game.is_valid_move(column):
-                    best_column, best_score = column, score
+            if not game.is_valid_move(column):
+                continue
+
+            score = self._evaluate_move(game, column)
+            if score >= best_score:
+                best_column, best_score = column, score
         return best_column

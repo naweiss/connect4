@@ -1,15 +1,15 @@
+import numpy as np
+
 from connect4 import Connect4Game, Player
 from connect4gui import Connect4Ui
-from players.alpha_beta import AlphaBetaPlayer
 from players.greedy import GreedyPlayer
+from players.random import RandomPlayer
 
 
 def main() -> None:
-    game = Connect4Game(starting_player=Player.SECOND)
+    game = Connect4Game(starting_player=np.random.choice(list(Player)))
     ui = Connect4Ui(game)
-    game.play_move(3)
-    game.switch_turn()
-    players = [GreedyPlayer(), AlphaBetaPlayer(max_depth=4)]
+    players = [GreedyPlayer(), RandomPlayer()]
 
     # Game loop
     while True:
