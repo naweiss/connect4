@@ -8,7 +8,7 @@ DEPTH = 4
 
 def get_valid_locations(game: Connect4Game):
     result = []
-    for i in range(game.board.shape[1]):
+    for i in range(Connect4Game.BOARD_SIZE[1]):
         if game.is_valid_move(i):
             result.append(i)
     return result

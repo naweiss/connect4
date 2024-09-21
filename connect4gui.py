@@ -29,19 +29,21 @@ class Connect4Ui:
         """Print out game board on console."""
         self._clear_screen()
         print("Player {} turn [{}]".format(self.game.current_player, self.PLAYER_TO_SYMBOL[self.game.current_player]))
-        print("+---------------------------+")
-        for row in range(self.game.board.shape[0]):
-            for column in range(self.game.board.shape[1]):
+        print("+" + "-" * (4 * Connect4Game.BOARD_SIZE[1] - 1) + "+")
+        for row in range(Connect4Game.BOARD_SIZE[0]):
+            for column in range(Connect4Game.BOARD_SIZE[1]):
                 if self.game.board[row, column] == Player.FIRST:
-                    print("| X", end=" ")
+                    print("| X ", end="")
                 elif self.game.board[row, column] == Player.SECOND:
-                    print("| O", end=" ")
+                    print("| O ", end="")
                 else:
-                    print("|  ", end=" ")
+                    print("|   ", end="")
             print("|")
-        print("+---------------------------+")
-        print("| 0   1   2   3   4   5   6 |")
-        print("+---------------------------+")
+        print("+" + "-" * (4 * Connect4Game.BOARD_SIZE[1] - 1) + "+")
+        for column in range(Connect4Game.BOARD_SIZE[1]):
+            print("| {} ".format(column), end="")
+        print("|")
+        print("+" + "-" * (4 * Connect4Game.BOARD_SIZE[1] - 1) + "+")
 
     def show_winner(self, winner: Optional[Player]) -> None:
         """Print the winner of the game"""

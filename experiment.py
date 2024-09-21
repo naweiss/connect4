@@ -6,11 +6,8 @@ from players.alpha_beta import AlphaBetaPlayer
 from players.pvs import PVSPlayer
 from players.mcts import MCTSPlayer
 
-EXP_TIMES = 12
 
-
-def run_one_game(first_player, second_player, starting_player: Player) -> Tuple[Optional[Player], int]:
-    game = Connect4Game(starting_player)
+def run_one_game(game: Connect4Game, first_player, second_player) -> Tuple[Optional[Player], int]:
     moving_steps = 0
 
     # Game loop
@@ -27,17 +24,20 @@ def run_one_game(first_player, second_player, starting_player: Player) -> Tuple[
             return winner, moving_steps
 
 
-def run_one_experiment(first_player, second_player, times: int) -> Tuple[int, int]:
+def run_one_experiment(first_player, second_player) -> Tuple[int, int]:
     total_moving_steps = 0
     first_player_wins = 0
 
-    for i in range(times):
-        # Alternate the starting player
-        starting_player = Player.FIRST if i % 2 == 0 else Player.SECOND
-        winner, current_moving_steps = run_one_game(first_player, second_player, starting_player)
-        total_moving_steps += current_moving_steps
-        if winner is Player.FIRST:
-            first_player_wins += 1
+    for starting_player in [Player.FIRST, Player.SECOND]:
+        for column in range(Connect4Game.BOARD_SIZE[1]):
+            game = Connect4Game(starting_player)
+            game.play_move(column)
+            game.switch_turn()
+
+            winner, current_moving_steps = run_one_game(game, first_player, second_player)
+            total_moving_steps += current_moving_steps
+            if winner is Player.FIRST:
+                first_player_wins += 1
 
     return first_player_wins, total_moving_steps
 
@@ -45,84 +45,84 @@ def run_one_experiment(first_player, second_player, times: int) -> Tuple[int, in
 def main() -> None:
     # Greedy VS Alpha Beta Pruning:
     print("Greedy VS Alpha Beta Pruning:")
-    wins, steps = run_one_experiment(GreedyPlayer(), AlphaBetaPlayer(), EXP_TIMES)
+    wins, steps = run_one_experiment(GreedyPlayer(), AlphaBetaPlayer())
     print("Greedy wins: ", wins)
     print("Moving steps: ", steps)
     print()
 
     # Greedy VS PVS:
     print("Greedy VS PVS:")
-    wins, steps = run_one_experiment(GreedyPlayer(), PVSPlayer(), EXP_TIMES)
+    wins, steps = run_one_experiment(GreedyPlayer(), PVSPlayer())
     print("Greedy wins: ", wins)
     print("Moving steps: ", steps)
     print()
 
     # Greedy VS MCTS:
     print("Greedy VS MCTS:")
-    wins, steps = run_one_experiment(GreedyPlayer(), MCTSPlayer(), EXP_TIMES)
+    wins, steps = run_one_experiment(GreedyPlayer(), MCTSPlayer())
     print("Greedy wins: ", wins)
     print("Moving steps: ", steps)
     print()
 
     # Alpha Beta Pruning VS Greedy:
     print("Alpha Beta Pruning VS Greedy:")
-    wins, steps = run_one_experiment(AlphaBetaPlayer(), GreedyPlayer(), EXP_TIMES)
+    wins, steps = run_one_experiment(AlphaBetaPlayer(), GreedyPlayer())
     print("Alpha Beta Pruning wins: ", wins)
     print("Moving steps: ", steps)
     print()
 
     # Alpha Beta Pruning VS PVS:
     print("Alpha Beta Pruning VS PVS:")
-    wins, steps = run_one_experiment(AlphaBetaPlayer(), PVSPlayer(), EXP_TIMES)
+    wins, steps = run_one_experiment(AlphaBetaPlayer(), PVSPlayer())
     print("Alpha Beta Pruning wins: ", wins)
     print("Moving steps: ", steps)
     print()
 
     # Alpha Beta Pruning VS MCTS:
     print("Alpha Beta Pruning VS MCTS:")
-    wins, steps = run_one_experiment(AlphaBetaPlayer(), MCTSPlayer(), EXP_TIMES)
+    wins, steps = run_one_experiment(AlphaBetaPlayer(), MCTSPlayer())
     print("Alpha Beta Pruning wins: ", wins)
     print("Moving steps: ", steps)
     print()
 
     # PVS VS Greedy:
     print("PVS VS Greedy:")
-    wins, steps = run_one_experiment(PVSPlayer(), GreedyPlayer(), EXP_TIMES)
+    wins, steps = run_one_experiment(PVSPlayer(), GreedyPlayer())
     print("PVS wins: ", wins)
     print("Moving steps: ", steps)
     print()
 
     # PVS VS Alpha Beta Pruning:
     print("PVS VS Alpha Beta Pruning:")
-    wins, steps = run_one_experiment(PVSPlayer(), AlphaBetaPlayer(), EXP_TIMES)
+    wins, steps = run_one_experiment(PVSPlayer(), AlphaBetaPlayer())
     print("PVS wins: ", wins)
     print("Moving steps: ", steps)
     print()
 
     # PVS VS MCTS:
     print("PVS VS MCTS:")
-    wins, steps = run_one_experiment(PVSPlayer(), MCTSPlayer(), EXP_TIMES)
+    wins, steps = run_one_experiment(PVSPlayer(), MCTSPlayer())
     print("PVS wins: ", wins)
     print("Moving steps: ", steps)
     print()
 
     # MCTS VS Greedy:
     print("MCTS VS Greedy:")
-    wins, steps = run_one_experiment(MCTSPlayer(), GreedyPlayer(), EXP_TIMES)
+    wins, steps = run_one_experiment(MCTSPlayer(), GreedyPlayer())
     print("MCTS wins: ", wins)
     print("Moving steps: ", steps)
     print()
 
     # MCTS VS Alpha Beta Pruning:
     print("MCTS VS Alpha Beta Pruning:")
-    wins, steps = run_one_experiment(MCTSPlayer(), AlphaBetaPlayer(), EXP_TIMES)
+    wins, steps = run_one_experiment(MCTSPlayer(), AlphaBetaPlayer())
     print("MCTS wins: ", wins)
     print("Moving steps: ", steps)
     print()
 
     # MCTS VS PVS:
     print("MCTS VS PVS:")
-    wins, steps = run_one_experiment(MCTSPlayer(), PVSPlayer(), EXP_TIMES)
+    wins, steps = run_one_experiment(MCTSPlayer(), PVSPlayer())
     print("MCTS wins: ", wins)
     print("Moving steps: ", steps)
     print()

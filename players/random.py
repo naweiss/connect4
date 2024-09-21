@@ -16,6 +16,6 @@ class RandomPlayer:
             int: Selected column index.
         """
         while True:
-            column = np.random.randint(game.board.shape[1])
+            column = np.random.randint(Connect4Game.BOARD_SIZE[1])
             if game.is_valid_move(column):
                 return column

@@ -14,9 +14,11 @@ class Player(IntEnum):
 class Connect4Game:
     """Connect4 game board"""
 
+    BOARD_SIZE = (5, 6)
+
     def __init__(self, starting_player: Player) -> None:
         self.current_player: Player = starting_player
-        self.board: np.ndarray = np.zeros(shape=(6, 7))
+        self.board: np.ndarray = np.zeros(shape=self.BOARD_SIZE)
 
     def is_valid_move(self, column: int) -> bool:
         """Check if a move can be applied to the board.

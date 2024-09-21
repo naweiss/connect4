@@ -20,7 +20,7 @@ class GreedyEvaluator:
     @classmethod
     def _evaluate_rows(cls, game: Connect4Game) -> float:
         score = 0
-        for row in range(game.board.shape[0]):
+        for row in range(Connect4Game.BOARD_SIZE[0]):
             for player, pieces in itertools.groupby(game.board[row, :]):
                 if player == game.current_player:
                     score += cls.LENGTH_TO_SCORE[len(list(pieces))]
@@ -29,7 +29,7 @@ class GreedyEvaluator:
     @classmethod
     def _evaluate_columns(cls, game: Connect4Game) -> float:
         score = 0
-        for column in range(game.board.shape[1]):
+        for column in range(Connect4Game.BOARD_SIZE[1]):
             for player, pieces in itertools.groupby(game.board[:, column]):
                 if player == game.current_player:
                     score += cls.LENGTH_TO_SCORE[len(list(pieces))]
@@ -38,7 +38,7 @@ class GreedyEvaluator:
     @classmethod
     def _evaluate_diagonals(cls, game: Connect4Game) -> float:
         score = 0
-        for diagonal_offset in range(-game.board.shape[1] + 1, game.board.shape[1]):
+        for diagonal_offset in range(-Connect4Game.BOARD_SIZE[1] + 1, Connect4Game.BOARD_SIZE[1]):
             diagonal = np.diagonal(game.board, offset=diagonal_offset)
             second_diagonal = np.diagonal(np.fliplr(game.board), offset=diagonal_offset)
 
@@ -54,7 +54,7 @@ class GreedyEvaluator:
 
     @classmethod
     def other_player_can_win(cls, game: Connect4Game) -> bool:
-        for column in range(game.board.shape[1]):
+        for column in range(Connect4Game.BOARD_SIZE[1]):
             future_game = deepcopy(game)
             future_game.switch_turn()
             future_game.play_move(column)
