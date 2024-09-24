@@ -1,4 +1,3 @@
-from typing import Optional
 import sys
 import os
 
@@ -9,6 +8,7 @@ class Connect4Ui:
     """Console base UI for connect4 game"""
 
     PLAYER_TO_SYMBOL = {
+        Player.NONE: ' ',
         Player.FIRST: 'X',
         Player.SECOND: 'O',
     }
@@ -32,12 +32,7 @@ class Connect4Ui:
         print("+" + "-" * (4 * Connect4Game.BOARD_SIZE[1] - 1) + "+")
         for row in range(Connect4Game.BOARD_SIZE[0]):
             for column in range(Connect4Game.BOARD_SIZE[1]):
-                if self.game.board[row, column] == Player.FIRST:
-                    print("| X ", end="")
-                elif self.game.board[row, column] == Player.SECOND:
-                    print("| O ", end="")
-                else:
-                    print("|   ", end="")
+                print("| {} ".format(self.PLAYER_TO_SYMBOL[self.game.board[row, column]]), end="")
             print("|")
         print("+" + "-" * (4 * Connect4Game.BOARD_SIZE[1] - 1) + "+")
         for column in range(Connect4Game.BOARD_SIZE[1]):
@@ -45,10 +40,11 @@ class Connect4Ui:
         print("|")
         print("+" + "-" * (4 * Connect4Game.BOARD_SIZE[1] - 1) + "+")
 
-    def show_winner(self, winner: Optional[Player]) -> None:
+    def show_winner(self, winner: Player) -> None:
         """Print the winner of the game"""
-        if winner is None:
-            print("\n\nTIE!!!")
+        print("\n")
+        if winner is Player.NONE:
+            print("TIE!!!")
         else:
-            print("\n\nPLAYER {} [{}] WON!!!".format(winner, self.PLAYER_TO_SYMBOL[winner]))
+            print("PLAYER {} [{}] WON!!!".format(winner, self.PLAYER_TO_SYMBOL[winner]))
 

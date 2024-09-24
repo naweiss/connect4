@@ -56,7 +56,11 @@ class GreedyEvaluator:
         return score
 
     @classmethod
-    def _player_can_win(cls, game: Connect4Game, evaluated_player: Player) -> bool:
+    def _other_player_can_win(cls, game: Connect4Game, player: Player) -> bool:
+        if game.current_player == player:
+            game_over, winner = game.check_win()
+            return game_over and winner != player
+
         for column in range(Connect4Game.BOARD_SIZE[1]):
             future_game = deepcopy(game)
             future_game.play_move(column)
@@ -67,10 +71,9 @@ class GreedyEvaluator:
 
     @classmethod
     def evaluate(cls, game: Connect4Game, player: Player) -> float:
-        other_player = Player.SECOND if player == Player.FIRST else Player.FIRST
         score = cls._evaluate_rows(game, player) + cls._evaluate_columns(game, player) + cls._evaluate_diagonals(game, player)
         if score == math.inf or game.check_tie(): # game won or ended in tie
             return score
-        if game.current_player == other_player and cls._player_can_win(game, other_player): # the other player can win in the next move
+        if cls._other_player_can_win(game, player):
             return -math.inf
         return score

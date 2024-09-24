@@ -1,4 +1,4 @@
-import numpy as np
+import random
 
 from connect4 import Connect4Game
 
@@ -16,6 +16,6 @@ class RandomPlayer:
             int: Selected column index.
         """
         while True:
-            column = np.random.randint(Connect4Game.BOARD_SIZE[1])
+            column = random.randint(0, Connect4Game.BOARD_SIZE[1] -1)
             if game.is_valid_move(column):
                 return column

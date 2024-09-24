@@ -32,9 +32,9 @@ class AlphaBetaPlayer:
             return -1, GreedyEvaluator.evaluate(game, maximizing_player)
 
         if game.current_player == maximizing_player:
-            best_column, best_score = 0, -math.inf
+            best_column, best_score = -1, -math.inf
         else: # minimizing
-            best_column, best_score = 0, math.inf
+            best_column, best_score = -1, math.inf
 
         for column in range(game.board.shape[1]):
             if not game.is_valid_move(column):
@@ -46,15 +46,15 @@ class AlphaBetaPlayer:
             _, score = cls._minimax(future_game, maximizing_player, alpha, beta, depth - 1)
 
             if game.current_player == maximizing_player:
-                if score >= best_score:
+                if best_column == -1 or score > best_score:
                     best_column, best_score = column, score
                 alpha = max(alpha, best_score)
             else: # minimizing
-                if score <= best_score:
+                if best_column == -1 or score < best_score:
                     best_column, best_score = column, score
                 beta = min(beta, best_score)
 
-            if alpha > beta:
+            if alpha >= beta:
                 break
 
         return best_column, best_score

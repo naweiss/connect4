@@ -1,4 +1,4 @@
-from typing import Tuple, Optional
+from typing import Tuple
 
 from connect4 import Connect4Game, Player
 from players.greedy import GreedyPlayer
@@ -7,7 +7,7 @@ from players.pvs import PVSPlayer
 from players.mcts import MCTSPlayer
 
 
-def run_one_game(game: Connect4Game, first_player, second_player) -> Tuple[Optional[Player], int]:
+def run_one_game(game: Connect4Game, first_player, second_player) -> Tuple[Player, int]:
     moving_steps = 0
 
     # Game loop
