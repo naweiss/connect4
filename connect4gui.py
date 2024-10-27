@@ -28,7 +28,7 @@ class Connect4Ui:
     def show(self) -> None:
         """Print out game board on console."""
         self._clear_screen()
-        print("Player {} turn [{}]".format(self.game.current_player, self.PLAYER_TO_SYMBOL[self.game.current_player]))
+        print("{} player turn [{}]".format(self.game.current_player.name.lower(), self.PLAYER_TO_SYMBOL[self.game.current_player]))
         print("+" + "-" * (4 * Connect4Game.BOARD_SIZE[1] - 1) + "+")
         for row in range(Connect4Game.BOARD_SIZE[0]):
             for column in range(Connect4Game.BOARD_SIZE[1]):
@@ -46,5 +46,5 @@ class Connect4Ui:
         if winner is Player.NONE:
             print("TIE!!!")
         else:
-            print("PLAYER {} [{}] WON!!!".format(winner, self.PLAYER_TO_SYMBOL[winner]))
+            print("{} player [{}] WON!!!".format(winner.name.lower(), self.PLAYER_TO_SYMBOL[winner]))
 

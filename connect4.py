@@ -1,15 +1,15 @@
 """Based on https://github.com/Gualor/connect4-montecarlo/blob/master/scripts/connect4_mcts.py"""
 
 from typing import Tuple
-from enum import IntEnum
+from enum import IntEnum, auto
 
 import numpy as np
 
 
 class Player(IntEnum):
-    NONE = 0
-    FIRST = 1
-    SECOND = 2
+    NONE = auto()
+    FIRST = auto()
+    SECOND = auto()
 
 
 class Connect4Game:
