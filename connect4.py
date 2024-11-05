@@ -44,7 +44,7 @@ class Connect4Game:
         Returns:
             bool: Move applied successfully.
         """
-        for row in range(self.board.shape[0] - 1, -1, -1):
+        for row in reversed(range(self.board.shape[0])):
             if self.board[row, column] == Player.NONE:
                 self.board[row, column] = self.current_player
                 return True

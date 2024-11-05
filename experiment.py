@@ -36,7 +36,7 @@ def run_one_experiment(first_player, second_player) -> Tuple[int, int]:
 
             winner, current_moving_steps = run_one_game(game, first_player, second_player)
             total_moving_steps += current_moving_steps
-            if winner is Player.FIRST:
+            if winner == Player.FIRST:
                 first_player_wins += 1
 
     return first_player_wins, total_moving_steps
