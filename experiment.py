@@ -29,9 +29,9 @@ def run_one_experiment(first_player, second_player) -> Tuple[int, int]:
     first_player_wins = 0
 
     for starting_player in [Player.FIRST, Player.SECOND]:
-        for column in range(Connect4Game.BOARD_SIZE[1]):
+        for starting_column in range(Connect4Game.BOARD_SIZE[1]):
             game = Connect4Game(starting_player)
-            game.play_move(column)
+            game.play_move(starting_column)
             game.switch_turn()
 
             winner, current_moving_steps = run_one_game(game, first_player, second_player)

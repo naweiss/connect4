@@ -1,4 +1,5 @@
 from copy import deepcopy
+import math
 
 from connect4 import Connect4Game
 from evaluation import GreedyEvaluator

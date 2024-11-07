@@ -48,11 +48,11 @@ class AlphaBetaPlayer:
             if game.current_player == maximizing_player:
                 if best_column == -1 or score > best_score:
                     best_column, best_score = column, score
-                alpha = max(alpha, best_score)
+                alpha = max(alpha, score)
             else: # minimizing
                 if best_column == -1 or score < best_score:
                     best_column, best_score = column, score
-                beta = min(beta, best_score)
+                beta = min(beta, score)
 
             if alpha >= beta:
                 break
