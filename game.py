@@ -2,6 +2,7 @@ import random
 
 from connect4 import Connect4Game, Player
 from connect4gui import Connect4Ui
+from evaluation import GreedyEvaluator
 from players.greedy import GreedyPlayer
 from players.alpha_beta import AlphaBetaPlayer
 
@@ -9,7 +10,7 @@ from players.alpha_beta import AlphaBetaPlayer
 def main() -> None:
     game = Connect4Game(starting_player=random.choice([Player.FIRST, Player.SECOND]))
     ui = Connect4Ui(game)
-    players = [GreedyPlayer(), AlphaBetaPlayer(max_depth=4)]
+    players = [GreedyPlayer(GreedyEvaluator), AlphaBetaPlayer(GreedyEvaluator, max_depth=4)]
 
     # Game loop
     while True:

@@ -1,20 +1,18 @@
 from copy import deepcopy
-from typing import Tuple
+from typing import Tuple, Type
 import math
 
 from connect4 import Connect4Game, Player
-from evaluation import GreedyEvaluator
 
 
 class PVSPlayer:
     """Player for connect4 game which uses the Principal Variation Search algorithm"""
 
-    def __init__(self, max_depth: int = 4) -> None:
+    def __init__(self, evaluator: Type, max_depth: int = 4) -> None:
         self.max_depth = max_depth
+        self.evaluator = evaluator
 
-    @classmethod
-    def _pvs(cls, game: Connect4Game, maximizing_player: Player, alpha: float, beta: float, depth: int) -> Tuple[
-        int, float]:
+    def _pvs(self, game: Connect4Game, maximizing_player: Player, alpha: float, beta: float, depth: int) -> Tuple[int, float]:
         """Find the best move in a connect4 by using the MiniMax algorithm,
            with alpha-beta pruning and Principal Variation Search optimization
 
@@ -31,7 +29,7 @@ class PVSPlayer:
         """
         game_over, _ = game.check_win()
         if depth == 0 or game_over:
-            score = GreedyEvaluator.evaluate(game, maximizing_player)
+            score = self.evaluator.evaluate(game, maximizing_player)
             return -1, score if game.current_player == maximizing_player else -score
 
         best_column, best_score = -1, -math.inf
@@ -45,11 +43,11 @@ class PVSPlayer:
             future_game.switch_turn()
 
             if best_column == -1 or depth == 1 or (beta - alpha) == 1:
-                score = -cls._pvs(future_game, maximizing_player, -beta, -alpha, depth - 1)[1]
+                score = -self._pvs(future_game, maximizing_player, -beta, -alpha, depth - 1)[1]
             else:
-                score = -cls._pvs(future_game, maximizing_player, -alpha - 1, -alpha, depth - 1)[1]
+                score = -self._pvs(future_game, maximizing_player, -alpha - 1, -alpha, depth - 1)[1]
                 if score > alpha and beta - alpha > 1:
-                    score = -cls._pvs(future_game, maximizing_player, -beta, -alpha, depth - 1)[1]
+                    score = -self._pvs(future_game, maximizing_player, -beta, -alpha, depth - 1)[1]
 
             if best_column == -1 or score > best_score:
                 best_column, best_score = column, score

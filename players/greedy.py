@@ -1,15 +1,17 @@
 from copy import deepcopy
 import math
+from typing import Type
 
 from connect4 import Connect4Game
-from evaluation import GreedyEvaluator
 
 
 class GreedyPlayer:
     """Greedy player for connect4 game"""
 
-    @staticmethod
-    def _evaluate_move(game: Connect4Game, column: int) -> float:
+    def __init__(self, evaluator: Type) -> None:
+        self.evaluator = evaluator
+
+    def _evaluate_move(self, game: Connect4Game, column: int) -> float:
         """Evaluate a connect4 move in a specific game.
 
         Args:
@@ -22,7 +24,7 @@ class GreedyPlayer:
         future_game = deepcopy(game)
         future_game.play_move(column)
         future_game.switch_turn()
-        return GreedyEvaluator.evaluate(future_game, game.current_player)
+        return self.evaluator.evaluate(future_game, game.current_player)
 
     def choose_move(self, game: Connect4Game) -> int:
         """Choose a valid move to play in the game

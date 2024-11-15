@@ -1,6 +1,7 @@
-from typing import Tuple
+from typing import Tuple, Type
 
 from connect4 import Connect4Game, Player
+from evaluation import GreedyEvaluator, ExternalEvaluator
 from players.greedy import GreedyPlayer
 from players.alpha_beta import AlphaBetaPlayer
 from players.pvs import PVSPlayer
@@ -42,90 +43,95 @@ def run_one_experiment(first_player, second_player) -> Tuple[int, int]:
     return first_player_wins, total_moving_steps
 
 
-def main() -> None:
+def experiment(evaluator: Type) -> None:
     # Greedy VS Alpha Beta Pruning:
     print("Greedy VS Alpha Beta Pruning:")
-    wins, steps = run_one_experiment(GreedyPlayer(), AlphaBetaPlayer())
+    wins, steps = run_one_experiment(GreedyPlayer(evaluator), AlphaBetaPlayer(evaluator))
     print("Greedy wins: ", wins)
     print("Moving steps: ", steps)
     print()
 
     # Greedy VS PVS:
     print("Greedy VS PVS:")
-    wins, steps = run_one_experiment(GreedyPlayer(), PVSPlayer())
+    wins, steps = run_one_experiment(GreedyPlayer(evaluator), PVSPlayer(evaluator))
     print("Greedy wins: ", wins)
     print("Moving steps: ", steps)
     print()
 
     # Greedy VS MCTS:
     print("Greedy VS MCTS:")
-    wins, steps = run_one_experiment(GreedyPlayer(), MCTSPlayer())
+    wins, steps = run_one_experiment(GreedyPlayer(evaluator), MCTSPlayer(evaluator))
     print("Greedy wins: ", wins)
     print("Moving steps: ", steps)
     print()
 
     # Alpha Beta Pruning VS Greedy:
     print("Alpha Beta Pruning VS Greedy:")
-    wins, steps = run_one_experiment(AlphaBetaPlayer(), GreedyPlayer())
+    wins, steps = run_one_experiment(AlphaBetaPlayer(evaluator), GreedyPlayer(evaluator))
     print("Alpha Beta Pruning wins: ", wins)
     print("Moving steps: ", steps)
     print()
 
     # Alpha Beta Pruning VS PVS:
     print("Alpha Beta Pruning VS PVS:")
-    wins, steps = run_one_experiment(AlphaBetaPlayer(), PVSPlayer())
+    wins, steps = run_one_experiment(AlphaBetaPlayer(evaluator), PVSPlayer(evaluator))
     print("Alpha Beta Pruning wins: ", wins)
     print("Moving steps: ", steps)
     print()
 
     # Alpha Beta Pruning VS MCTS:
     print("Alpha Beta Pruning VS MCTS:")
-    wins, steps = run_one_experiment(AlphaBetaPlayer(), MCTSPlayer())
+    wins, steps = run_one_experiment(AlphaBetaPlayer(evaluator), MCTSPlayer(evaluator))
     print("Alpha Beta Pruning wins: ", wins)
     print("Moving steps: ", steps)
     print()
 
     # PVS VS Greedy:
     print("PVS VS Greedy:")
-    wins, steps = run_one_experiment(PVSPlayer(), GreedyPlayer())
+    wins, steps = run_one_experiment(PVSPlayer(evaluator), GreedyPlayer(evaluator))
     print("PVS wins: ", wins)
     print("Moving steps: ", steps)
     print()
 
     # PVS VS Alpha Beta Pruning:
     print("PVS VS Alpha Beta Pruning:")
-    wins, steps = run_one_experiment(PVSPlayer(), AlphaBetaPlayer())
+    wins, steps = run_one_experiment(PVSPlayer(evaluator), AlphaBetaPlayer(evaluator))
     print("PVS wins: ", wins)
     print("Moving steps: ", steps)
     print()
 
     # PVS VS MCTS:
     print("PVS VS MCTS:")
-    wins, steps = run_one_experiment(PVSPlayer(), MCTSPlayer())
+    wins, steps = run_one_experiment(PVSPlayer(evaluator), MCTSPlayer(evaluator))
     print("PVS wins: ", wins)
     print("Moving steps: ", steps)
     print()
 
     # MCTS VS Greedy:
     print("MCTS VS Greedy:")
-    wins, steps = run_one_experiment(MCTSPlayer(), GreedyPlayer())
+    wins, steps = run_one_experiment(MCTSPlayer(evaluator), GreedyPlayer(evaluator))
     print("MCTS wins: ", wins)
     print("Moving steps: ", steps)
     print()
 
     # MCTS VS Alpha Beta Pruning:
     print("MCTS VS Alpha Beta Pruning:")
-    wins, steps = run_one_experiment(MCTSPlayer(), AlphaBetaPlayer())
+    wins, steps = run_one_experiment(MCTSPlayer(evaluator), AlphaBetaPlayer(evaluator))
     print("MCTS wins: ", wins)
     print("Moving steps: ", steps)
     print()
 
     # MCTS VS PVS:
     print("MCTS VS PVS:")
-    wins, steps = run_one_experiment(MCTSPlayer(), PVSPlayer())
+    wins, steps = run_one_experiment(MCTSPlayer(evaluator), PVSPlayer(evaluator))
     print("MCTS wins: ", wins)
     print("Moving steps: ", steps)
     print()
+
+
+def main() -> None:
+    experiment(GreedyEvaluator)
+    experiment(ExternalEvaluator)
 
 
 if __name__ == "__main__":

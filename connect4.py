@@ -7,9 +7,9 @@ import numpy as np
 
 
 class Player(IntEnum):
-    NONE = auto()
-    FIRST = auto()
-    SECOND = auto()
+    NONE = 0
+    FIRST = 1
+    SECOND = 2
 
 
 class Connect4Game:
