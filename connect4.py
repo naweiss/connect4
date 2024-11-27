@@ -1,6 +1,6 @@
 """Based on https://github.com/Gualor/connect4-montecarlo/blob/master/scripts/connect4_mcts.py"""
 
-from typing import Tuple
+from typing import Tuple, List
 from enum import IntEnum, auto
 
 import numpy as np
@@ -34,6 +34,18 @@ class Connect4Game:
             return False
 
         return self.board[0, column] == Player.NONE
+
+    def get_valid_moves(self) -> List[int]:
+        """Find the list of all valid moves.
+
+        Returns:
+            List[int]: List of all valid column indices.
+        """
+        moves = []
+        for column in range(Connect4Game.BOARD_SIZE[1]):
+            if self.is_valid_move(column):
+                moves.append(column)
+        return moves
 
     def play_move(self, column: int) -> bool:
         """Apply move to board.
@@ -143,4 +155,4 @@ class Connect4Game:
         Returns:
             bool: Game is a tie.
         """
-        return np.count_nonzero(self.board != Player.NONE) == self.board.size
+        return np.count_nonzero(self.board != Player.NONE) == self.BOARD_SIZE[0] * self.BOARD_SIZE[1]

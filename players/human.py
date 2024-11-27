@@ -11,12 +11,11 @@ class HumanPlayer:
         Returns:
             int: Selected column index.
         """
-        while True:
-            print("Enter a number between 0 and 6:", end="")
-            try:
-                return int(input())
-            except ValueError:
-                pass
+        print("Enter a number between 0 and 6:", end="")
+        try:
+            return int(input())
+        except ValueError:
+            return -1
 
     def choose_move(self, game: Connect4Game) -> int:
         """Choose a valid move to play in the game

@@ -15,7 +15,4 @@ class RandomPlayer:
         Returns:
             int: Selected column index.
         """
-        while True:
-            column = random.randint(0, Connect4Game.BOARD_SIZE[1] -1)
-            if game.is_valid_move(column):
-                return column
+        return random.choice(game.get_valid_moves())

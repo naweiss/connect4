@@ -35,10 +35,7 @@ class AlphaBetaPlayer:
         else: # minimizing
             best_column, best_score = -1, math.inf
 
-        for column in range(game.board.shape[1]):
-            if not game.is_valid_move(column):
-                continue
-
+        for column in game.get_valid_moves():
             future_game = deepcopy(game)
             future_game.play_move(column)
             future_game.switch_turn()
