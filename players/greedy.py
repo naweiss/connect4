@@ -1,6 +1,6 @@
 from copy import deepcopy
-import math
 from typing import Type
+import math
 
 from connect4 import Connect4Game
 

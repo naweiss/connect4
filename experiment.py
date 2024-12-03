@@ -60,7 +60,7 @@ def experiment(evaluator: Type) -> None:
 
     # Greedy VS MCTS:
     print("Greedy VS MCTS:")
-    wins, steps = run_one_experiment(GreedyPlayer(evaluator), MCTSPlayer(evaluator))
+    wins, steps = run_one_experiment(GreedyPlayer(evaluator), MCTSPlayer())
     print("Greedy wins: ", wins)
     print("Moving steps: ", steps)
     print()
@@ -81,7 +81,7 @@ def experiment(evaluator: Type) -> None:
 
     # Alpha Beta Pruning VS MCTS:
     print("Alpha Beta Pruning VS MCTS:")
-    wins, steps = run_one_experiment(AlphaBetaPlayer(evaluator), MCTSPlayer(evaluator))
+    wins, steps = run_one_experiment(AlphaBetaPlayer(evaluator), MCTSPlayer())
     print("Alpha Beta Pruning wins: ", wins)
     print("Moving steps: ", steps)
     print()
@@ -102,28 +102,28 @@ def experiment(evaluator: Type) -> None:
 
     # PVS VS MCTS:
     print("PVS VS MCTS:")
-    wins, steps = run_one_experiment(PVSPlayer(evaluator), MCTSPlayer(evaluator))
+    wins, steps = run_one_experiment(PVSPlayer(evaluator), MCTSPlayer())
     print("PVS wins: ", wins)
     print("Moving steps: ", steps)
     print()
 
     # MCTS VS Greedy:
     print("MCTS VS Greedy:")
-    wins, steps = run_one_experiment(MCTSPlayer(evaluator), GreedyPlayer(evaluator))
+    wins, steps = run_one_experiment(MCTSPlayer(), GreedyPlayer(evaluator))
     print("MCTS wins: ", wins)
     print("Moving steps: ", steps)
     print()
 
     # MCTS VS Alpha Beta Pruning:
     print("MCTS VS Alpha Beta Pruning:")
-    wins, steps = run_one_experiment(MCTSPlayer(evaluator), AlphaBetaPlayer(evaluator))
+    wins, steps = run_one_experiment(MCTSPlayer(), AlphaBetaPlayer(evaluator))
     print("MCTS wins: ", wins)
     print("Moving steps: ", steps)
     print()
 
     # MCTS VS PVS:
     print("MCTS VS PVS:")
-    wins, steps = run_one_experiment(MCTSPlayer(evaluator), PVSPlayer(evaluator))
+    wins, steps = run_one_experiment(MCTSPlayer(), PVSPlayer(evaluator))
     print("MCTS wins: ", wins)
     print("Moving steps: ", steps)
     print()
@@ -131,7 +131,7 @@ def experiment(evaluator: Type) -> None:
 
 def main() -> None:
     experiment(GreedyEvaluator)
-    experiment(ExternalEvaluator)
+    # experiment(ExternalEvaluator)
 
 
 if __name__ == "__main__":
