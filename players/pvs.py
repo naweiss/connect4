@@ -1,14 +1,15 @@
 from copy import deepcopy
-from typing import Tuple, Type
+from typing import Tuple
 import math
 
 from connect4 import Connect4Game, Player
+from evaluation import Evaluator
 
 
 class PVSPlayer:
     """Player for connect4 game which uses the Principal Variation Search algorithm"""
 
-    def __init__(self, evaluator: Type, max_depth: int = 4) -> None:
+    def __init__(self, evaluator: type[Evaluator], max_depth: int = 4) -> None:
         self.max_depth = max_depth
         self.evaluator = evaluator
 

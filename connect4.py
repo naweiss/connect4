@@ -1,7 +1,7 @@
 """Based on https://github.com/Gualor/connect4-montecarlo/blob/master/scripts/connect4_mcts.py"""
 
 from typing import Tuple, List
-from enum import IntEnum, auto
+from enum import IntEnum  # , auto
 
 import numpy as np
 

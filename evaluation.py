@@ -6,7 +6,13 @@ import numpy as np
 from connect4 import Connect4Game, Player
 
 
-class GreedyEvaluator:
+class Evaluator:
+    @classmethod
+    def evaluate(cls, game: Connect4Game, player: Player) -> float:
+        return -1
+
+
+class GreedyEvaluator(Evaluator):
     """Evaluate a game of connect4"""
 
     LENGTH_TO_SCORE = {
@@ -108,7 +114,7 @@ class GreedyEvaluator:
         return total_score
 
 
-class ExternalEvaluator:
+class ExternalEvaluator(Evaluator):
     @classmethod
     def get_all_segments(cls):
         indices = np.arange(Connect4Game.BOARD_SIZE[0] * Connect4Game.BOARD_SIZE[1]).reshape(Connect4Game.BOARD_SIZE)

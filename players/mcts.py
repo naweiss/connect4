@@ -1,13 +1,13 @@
 from copy import deepcopy
-from typing import Type
 
 from connect4 import Connect4Game
+from evaluation import Evaluator
 
 
 class MCTSPlayer:
     """Player for connect4 game which uses the Monte Carlo Tree Search algorithm"""
 
-    def __init__(self, evaluator: Type) -> None:
+    def __init__(self, evaluator: type[Evaluator]) -> None:
         self.evaluator = evaluator
 
     def _evaluate_move(self, game: Connect4Game, column: int) -> float:
@@ -35,9 +35,7 @@ class MCTSPlayer:
             int: Selected column index.
         """
         best_column, best_score = 0, float('-inf')
-        for column in range(Connect4Game.BOARD_SIZE[1]):
-            if not game.is_valid_move(column):
-                continue
+        for column in game.get_valid_moves():
 
             score = self._evaluate_move(game, column)
             if score >= best_score:

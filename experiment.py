@@ -1,7 +1,7 @@
-from typing import Tuple, Type
+from typing import Tuple
 
 from connect4 import Connect4Game, Player
-from evaluation import GreedyEvaluator, ExternalEvaluator
+from evaluation import GreedyEvaluator, ExternalEvaluator, Evaluator
 from players.greedy import GreedyPlayer
 from players.alpha_beta import AlphaBetaPlayer
 from players.pvs import PVSPlayer
@@ -43,7 +43,7 @@ def run_one_experiment(first_player, second_player) -> Tuple[int, int]:
     return first_player_wins, total_moving_steps
 
 
-def experiment(evaluator: Type) -> None:
+def experiment(evaluator: type[Evaluator]) -> None:
     # Greedy VS Alpha Beta Pruning:
     print("Greedy VS Alpha Beta Pruning:")
     wins, steps = run_one_experiment(GreedyPlayer(evaluator), AlphaBetaPlayer(evaluator))

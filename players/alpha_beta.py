@@ -1,5 +1,6 @@
 from copy import deepcopy
-from typing import Tuple, Type
+from typing import Tuple
+from evaluation import Evaluator
 import math
 
 from connect4 import Connect4Game, Player
@@ -8,11 +9,12 @@ from connect4 import Connect4Game, Player
 class AlphaBetaPlayer:
     """Player for connect4 game which uses the MiniMax algorithm with alpha-beta pruning"""
 
-    def __init__(self, evaluator: Type, max_depth: int = 4) -> None:
+    def __init__(self, evaluator: type[Evaluator], max_depth: int = 4) -> None:
         self.max_depth = max_depth
         self.evaluator = evaluator
 
-    def _minimax(self, game: Connect4Game, maximizing_player: Player, alpha: float, beta: float, depth: int) -> Tuple[int, float]:
+    def _minimax(self, game: Connect4Game, maximizing_player: Player, alpha: float, beta: float, depth: int)\
+            -> Tuple[int, float]:
         """Find the best move in a connect4 by using the MiniMax algorithm with alpha-beta pruning
 
         Args:

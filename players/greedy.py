@@ -1,14 +1,14 @@
 from copy import deepcopy
 import math
-from typing import Type
 
 from connect4 import Connect4Game
+from evaluation import Evaluator
 
 
 class GreedyPlayer:
     """Greedy player for connect4 game"""
 
-    def __init__(self, evaluator: Type) -> None:
+    def __init__(self, evaluator: type[Evaluator]) -> None:
         self.evaluator = evaluator
 
     def _evaluate_move(self, game: Connect4Game, column: int) -> float:
