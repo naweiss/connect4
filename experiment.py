@@ -1,7 +1,7 @@
 from typing import Tuple
 
 from connect4 import Connect4Game, Player
-from evaluation import GreedyEvaluator, ExternalEvaluator, Evaluator
+from evaluation import Evaluator, GreedyEvaluator  # , ExternalEvaluator
 from players.greedy import GreedyPlayer
 from players.alpha_beta import AlphaBetaPlayer
 from players.pvs import PVSPlayer
@@ -44,88 +44,98 @@ def run_one_experiment(first_player, second_player) -> Tuple[int, int]:
 
 
 def experiment(evaluator: type[Evaluator]) -> None:
+    print("Experiment results of Greedy")
+    print("-------------------------------------------------------------------")
+    print("Opponent name\t\tWin times\tMoving steps")
+    print("-------------------------------------------------------------------")
     # Greedy VS Alpha Beta Pruning:
-    print("Greedy VS Alpha Beta Pruning:")
     wins, steps = run_one_experiment(GreedyPlayer(evaluator), AlphaBetaPlayer(evaluator))
-    print("Greedy wins: ", wins)
-    print("Moving steps: ", steps)
-    print()
-
-    # Greedy VS PVS:
-    print("Greedy VS PVS:")
-    wins, steps = run_one_experiment(GreedyPlayer(evaluator), PVSPlayer(evaluator))
-    print("Greedy wins: ", wins)
-    print("Moving steps: ", steps)
-    print()
-
+    t_wins, t_steps = wins, steps
+    print("Alpha-beta pruning\t", wins, "\t\t\t", steps)
     # Greedy VS MCTS:
-    print("Greedy VS MCTS:")
     wins, steps = run_one_experiment(GreedyPlayer(evaluator), MCTSPlayer())
-    print("Greedy wins: ", wins)
-    print("Moving steps: ", steps)
+    t_wins += wins
+    t_steps += steps
+    print("Monte Carlo\t\t\t", wins, "\t\t\t", steps)
+    # Greedy VS PVS:
+    wins, steps = run_one_experiment(GreedyPlayer(evaluator), PVSPlayer(evaluator))
+    t_wins += wins
+    t_steps += steps
+    print("PVS\t\t\t\t\t", wins, "\t\t\t", steps)
+    print("Total\t\t\t\t", t_wins, "\t\t\t", t_steps)
+    print("-------------------------------------------------------------------")
     print()
 
+    print("Experiment results of Alpha-beta pruning")
+    print("-------------------------------------------------------------------")
+    print("Opponent name\t\tWin times\tMoving steps")
+    print("-------------------------------------------------------------------")
     # Alpha Beta Pruning VS Greedy:
-    print("Alpha Beta Pruning VS Greedy:")
     wins, steps = run_one_experiment(AlphaBetaPlayer(evaluator), GreedyPlayer(evaluator))
-    print("Alpha Beta Pruning wins: ", wins)
-    print("Moving steps: ", steps)
-    print()
-
-    # Alpha Beta Pruning VS PVS:
-    print("Alpha Beta Pruning VS PVS:")
-    wins, steps = run_one_experiment(AlphaBetaPlayer(evaluator), PVSPlayer(evaluator))
-    print("Alpha Beta Pruning wins: ", wins)
-    print("Moving steps: ", steps)
-    print()
-
+    t_wins, t_steps = wins, steps
+    print("Greedy\t\t\t\t", wins, "\t\t", steps)
     # Alpha Beta Pruning VS MCTS:
-    print("Alpha Beta Pruning VS MCTS:")
     wins, steps = run_one_experiment(AlphaBetaPlayer(evaluator), MCTSPlayer())
-    print("Alpha Beta Pruning wins: ", wins)
-    print("Moving steps: ", steps)
+    t_wins += wins
+    t_steps += steps
+    print("Monte Carlo\t\t\t", wins, "\t\t\t", steps)
+    # Alpha Beta Pruning VS PVS:
+    wins, steps = run_one_experiment(AlphaBetaPlayer(evaluator), PVSPlayer(evaluator))
+    t_wins += wins
+    t_steps += steps
+    print("PVS\t\t\t\t\t", wins, "\t\t\t", steps)
+    print("Total\t\t\t\t", t_wins, "\t\t", t_steps)
+    print("-------------------------------------------------------------------")
     print()
 
+    print("Experiment results of Principal Variation Search")
+    print("-------------------------------------------------------------------")
+    print("Opponent name\t\tWin times\tMoving steps")
+    print("-------------------------------------------------------------------")
     # PVS VS Greedy:
-    print("PVS VS Greedy:")
     wins, steps = run_one_experiment(PVSPlayer(evaluator), GreedyPlayer(evaluator))
-    print("PVS wins: ", wins)
-    print("Moving steps: ", steps)
-    print()
-
+    t_wins, t_steps = wins, steps
+    print("Greedy\t\t\t\t", wins, "\t\t", steps)
     # PVS VS Alpha Beta Pruning:
-    print("PVS VS Alpha Beta Pruning:")
     wins, steps = run_one_experiment(PVSPlayer(evaluator), AlphaBetaPlayer(evaluator))
-    print("PVS wins: ", wins)
-    print("Moving steps: ", steps)
-    print()
-
+    t_wins += wins
+    t_steps += steps
+    print("Alpha-beta pruning\t", wins, "\t\t\t", steps)
     # PVS VS MCTS:
-    print("PVS VS MCTS:")
     wins, steps = run_one_experiment(PVSPlayer(evaluator), MCTSPlayer())
-    print("PVS wins: ", wins)
-    print("Moving steps: ", steps)
+    t_wins += wins
+    t_steps += steps
+    print("Monte Carlo\t\t\t", wins, "\t\t\t", steps)
+    print("Total\t\t\t\t", t_wins, "\t\t", t_steps)
+    print("-------------------------------------------------------------------")
     print()
 
+    print("Experiment results of Monte Carlo")
+    print("-------------------------------------------------------------------")
+    print("Opponent name\t\tWin times\tMoving steps")
+    print("-------------------------------------------------------------------")
     # MCTS VS Greedy:
-    print("MCTS VS Greedy:")
     wins, steps = run_one_experiment(MCTSPlayer(), GreedyPlayer(evaluator))
-    print("MCTS wins: ", wins)
-    print("Moving steps: ", steps)
-    print()
-
+    t_wins, t_steps = wins, steps
+    print("Greedy\t\t\t\t", wins, "\t\t", steps)
     # MCTS VS Alpha Beta Pruning:
-    print("MCTS VS Alpha Beta Pruning:")
     wins, steps = run_one_experiment(MCTSPlayer(), AlphaBetaPlayer(evaluator))
-    print("MCTS wins: ", wins)
-    print("Moving steps: ", steps)
-    print()
-
+    t_wins += wins
+    t_steps += steps
+    if wins < 10:
+        print("Alpha-beta pruning\t", wins, "\t\t\t", steps)
+    else:
+        print("Alpha-beta pruning\t", wins, "\t\t", steps)
     # MCTS VS PVS:
-    print("MCTS VS PVS:")
     wins, steps = run_one_experiment(MCTSPlayer(), PVSPlayer(evaluator))
-    print("MCTS wins: ", wins)
-    print("Moving steps: ", steps)
+    t_wins += wins
+    t_steps += steps
+    if wins < 10:
+        print("PVS\t\t\t\t\t", wins, "\t\t\t", steps)
+    else:
+        print("PVS\t\t\t\t\t", wins, "\t\t", steps)
+    print("Total\t\t\t\t", t_wins, "\t\t", t_steps)
+    print("-------------------------------------------------------------------")
     print()
 
 
