@@ -2,7 +2,7 @@ import random
 
 from connect4 import Connect4Game, Player
 from connect4gui import Connect4Ui
-from evaluation import GreedyEvaluator, Evaluator
+from evaluation import GreedyEvaluator
 from players.greedy import GreedyPlayer
 from players.alpha_beta import AlphaBetaPlayer
 

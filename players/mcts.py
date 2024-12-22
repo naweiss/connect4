@@ -1,6 +1,6 @@
 from __future__ import annotations
 from copy import deepcopy
-from typing import Dict, Optional
+from typing import Dict, Optional, Tuple
 import math
 import random
 
@@ -86,7 +86,7 @@ class MCTSPlayer:
     def expansion(leaf: Node) -> Optional[Node]:
         return leaf.expand()
 
-    def choose_move(self, game: Connect4Game) -> int:
+    def choose_move(self, game: Connect4Game) -> Tuple[int, int]:
         """Choose a valid move to play in the game
 
         Args:
@@ -94,6 +94,7 @@ class MCTSPlayer:
 
         Returns:
             int: Selected column index.
+            int: steps.
         """
         root = Node(game)
         for i in range(self.iterations):
@@ -108,4 +109,4 @@ class MCTSPlayer:
             self.backpropagation(child, winner)
 
         # return the moves with the highest win rate
-        return max(root.sub_games, key=lambda column: root.sub_games.get(column).games_played)
+        return max(root.sub_games, key=lambda column: root.sub_games.get(column).games_played), 1

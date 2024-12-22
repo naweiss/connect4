@@ -1,5 +1,6 @@
 from copy import deepcopy
 import math
+from typing import Tuple
 
 from connect4 import Connect4Game
 from evaluation import Evaluator
@@ -26,7 +27,7 @@ class GreedyPlayer:
         future_game.switch_turn()
         return self.evaluator.evaluate(future_game, game.current_player)
 
-    def choose_move(self, game: Connect4Game) -> int:
+    def choose_move(self, game: Connect4Game) -> Tuple[int, int]:
         """Choose a valid move to play in the game
 
         Args:
@@ -34,10 +35,11 @@ class GreedyPlayer:
 
         Returns:
             int: Selected column index.
+            int: steps (1).
         """
         best_column, best_score = -1, -math.inf
         for column in game.get_valid_moves():
             score = self._evaluate_move(game, column)
             if best_column == -1 or score > best_score:
                 best_column, best_score = column, score
-        return best_column
+        return best_column, 1
