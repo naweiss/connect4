@@ -140,12 +140,12 @@ class Connect4Game:
         for diagonal_offset in range(-self.board.shape[1] + 1, self.board.shape[1]):
             diagonal = np.diagonal(self.board, offset=diagonal_offset)
             for index in range(diagonal.size - 3):
-                if self._all_identical(diagonal[index : index + 4]):
+                if self._all_identical(diagonal[index: index + 4]):
                     return Player(diagonal[index])
 
             second_diagonal = np.diagonal(np.fliplr(self.board), offset=diagonal_offset)
             for index in range(second_diagonal.size - 3):
-                if self._all_identical(second_diagonal[index : index + 4]):
+                if self._all_identical(second_diagonal[index: index + 4]):
                     return Player(second_diagonal[index])
         return Player.NONE
 

@@ -13,10 +13,14 @@ def run_one_game(game: Connect4Game, first_player, second_player) -> Tuple[Playe
 
     # Game loop
     while True:
-        current_player = first_player if game.current_player == Player.FIRST else second_player
-        column = current_player.choose_move(game)
+        if game.current_player == Player.FIRST:
+            column, current_steps = first_player.choose_move(game)
+            moving_steps += current_steps
+        else:
+            column, current_steps = second_player.choose_move(game)
+            # moving_steps += current_steps
+
         game.play_move(column)
-        moving_steps += 1
         game.switch_turn()
 
         # Check game over

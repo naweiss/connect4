@@ -13,7 +13,8 @@ class PVSPlayer:
         self.max_depth = max_depth
         self.evaluator = evaluator
 
-    def _pvs(self, game: Connect4Game, maximizing_player: Player, alpha: float, beta: float, depth: int) -> Tuple[int, float]:
+    def _pvs(self, game: Connect4Game, maximizing_player: Player, alpha: float, beta: float, depth: int)\
+            -> Tuple[int, float, int]:
         """Find the best move in a connect4 by using the MiniMax algorithm,
            with alpha-beta pruning and Principal Variation Search optimization
 
@@ -27,11 +28,12 @@ class PVSPlayer:
         Returns:
             int: best move
             int: score of the best move
+            int: steps
         """
         game_over, _ = game.check_win()
         if depth == 0 or game_over:
             score = self.evaluator.evaluate(game, maximizing_player)
-            return -1, score if game.current_player == maximizing_player else -score
+            return -1, (score if game.current_player == maximizing_player else -score), 5-depth
 
         best_column, best_score = -1, -math.inf
 
@@ -54,9 +56,9 @@ class PVSPlayer:
             if alpha >= beta:
                 break
 
-        return best_column, best_score
+        return best_column, best_score, 5-depth
 
-    def choose_move(self, game: Connect4Game) -> int:
+    def choose_move(self, game: Connect4Game) -> Tuple[int, int]:
         """Choose a valid move to play in the game
 
         Args:
@@ -64,6 +66,7 @@ class PVSPlayer:
 
         Returns:
             int: Selected column index.
+            int: steps.
         """
-        move, score = self._pvs(game, game.current_player, -math.inf, math.inf, self.max_depth)
-        return move
+        move, score, steps = self._pvs(game, game.current_player, -math.inf, math.inf, self.max_depth)
+        return move, steps

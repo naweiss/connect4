@@ -14,7 +14,7 @@ class AlphaBetaPlayer:
         self.evaluator = evaluator
 
     def _minimax(self, game: Connect4Game, maximizing_player: Player, alpha: float, beta: float, depth: int)\
-            -> Tuple[int, float]:
+            -> Tuple[int, float, int]:
         """Find the best move in a connect4 by using the MiniMax algorithm with alpha-beta pruning
 
         Args:
@@ -27,27 +27,28 @@ class AlphaBetaPlayer:
         Returns:
             int: best move
             int: score of the best move
+            int: steps
         """
         game_over, _ = game.check_win()
         if depth == 0 or game_over:
-            return -1, self.evaluator.evaluate(game, maximizing_player)
+            return -1, self.evaluator.evaluate(game, maximizing_player), 5-depth
 
         if game.current_player == maximizing_player:
             best_column, best_score = -1, -math.inf
-        else: # minimizing
+        else:  # minimizing
             best_column, best_score = -1, math.inf
 
         for column in game.get_valid_moves():
             future_game = deepcopy(game)
             future_game.play_move(column)
             future_game.switch_turn()
-            _, score = self._minimax(future_game, maximizing_player, alpha, beta, depth - 1)
+            score = self._minimax(future_game, maximizing_player, alpha, beta, depth - 1)[1]
 
             if game.current_player == maximizing_player:
                 if best_column == -1 or score > best_score:
                     best_column, best_score = column, score
                 alpha = max(alpha, score)
-            else: # minimizing
+            else:  # minimizing
                 if best_column == -1 or score < best_score:
                     best_column, best_score = column, score
                 beta = min(beta, score)
@@ -55,9 +56,9 @@ class AlphaBetaPlayer:
             if alpha >= beta:
                 break
 
-        return best_column, best_score
+        return best_column, best_score, 5-depth
 
-    def choose_move(self, game: Connect4Game) -> int:
+    def choose_move(self, game: Connect4Game) -> Tuple[int, int]:
         """Choose a valid move to play in the game
 
         Args:
@@ -65,6 +66,7 @@ class AlphaBetaPlayer:
 
         Returns:
             int: Selected column index.
+            int: steps.
         """
-        move, score = self._minimax(game, game.current_player, -math.inf, math.inf, self.max_depth)
-        return move
+        move, score, steps = self._minimax(game, game.current_player, -math.inf, math.inf, self.max_depth)
+        return move, steps
