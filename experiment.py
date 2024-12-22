@@ -6,6 +6,7 @@ from players.greedy import GreedyPlayer
 from players.alpha_beta import AlphaBetaPlayer
 from players.pvs import PVSPlayer
 from players.mcts import MCTSPlayer
+from print_helpers import table_print, table_header_print
 
 
 def run_one_game(game: Connect4Game, first_player, second_player) -> Tuple[Player, int]:
@@ -45,97 +46,80 @@ def run_one_experiment(first_player, second_player) -> Tuple[int, int]:
 
 def experiment(evaluator: type[Evaluator]) -> None:
     print("Experiment results of Greedy")
-    print("-------------------------------------------------------------------")
-    print("Opponent name\t\tWin times\tMoving steps")
-    print("-------------------------------------------------------------------")
+    table_header_print(["Opponent name", "Win times", "Moving steps"])
     # Greedy VS Alpha Beta Pruning:
     wins, steps = run_one_experiment(GreedyPlayer(evaluator), AlphaBetaPlayer(evaluator))
     t_wins, t_steps = wins, steps
-    print("Alpha-beta pruning\t", wins, "\t\t\t", steps)
+    table_print(["Alpha-beta pruning", wins, steps])
     # Greedy VS MCTS:
     wins, steps = run_one_experiment(GreedyPlayer(evaluator), MCTSPlayer())
     t_wins += wins
     t_steps += steps
-    print("Monte Carlo\t\t\t", wins, "\t\t\t", steps)
+    table_print(["Monte Carlo", wins, steps])
     # Greedy VS PVS:
     wins, steps = run_one_experiment(GreedyPlayer(evaluator), PVSPlayer(evaluator))
     t_wins += wins
     t_steps += steps
-    print("PVS\t\t\t\t\t", wins, "\t\t\t", steps)
-    print("Total\t\t\t\t", t_wins, "\t\t\t", t_steps)
-    print("-------------------------------------------------------------------")
+    table_print(["PVS", wins, steps])
+    table_print(["Total", wins, t_steps])
     print()
 
     print("Experiment results of Alpha-beta pruning")
-    print("-------------------------------------------------------------------")
-    print("Opponent name\t\tWin times\tMoving steps")
-    print("-------------------------------------------------------------------")
+    table_header_print(["Opponent name", "Win times", "Moving steps"])
     # Alpha Beta Pruning VS Greedy:
     wins, steps = run_one_experiment(AlphaBetaPlayer(evaluator), GreedyPlayer(evaluator))
     t_wins, t_steps = wins, steps
-    print("Greedy\t\t\t\t", wins, "\t\t", steps)
+    table_print(["Greedy", wins, steps])
     # Alpha Beta Pruning VS MCTS:
     wins, steps = run_one_experiment(AlphaBetaPlayer(evaluator), MCTSPlayer())
     t_wins += wins
     t_steps += steps
-    print("Monte Carlo\t\t\t", wins, "\t\t\t", steps)
+    table_print(["Monte Carlo", wins, steps])
     # Alpha Beta Pruning VS PVS:
     wins, steps = run_one_experiment(AlphaBetaPlayer(evaluator), PVSPlayer(evaluator))
     t_wins += wins
     t_steps += steps
-    print("PVS\t\t\t\t\t", wins, "\t\t\t", steps)
-    print("Total\t\t\t\t", t_wins, "\t\t", t_steps)
-    print("-------------------------------------------------------------------")
+    table_print(["PVS", wins, steps])
+    table_print(["Total", wins, t_steps])
     print()
 
     print("Experiment results of Principal Variation Search")
-    print("-------------------------------------------------------------------")
-    print("Opponent name\t\tWin times\tMoving steps")
-    print("-------------------------------------------------------------------")
+    table_header_print(["Opponent name", "Win times", "Moving steps"])
     # PVS VS Greedy:
     wins, steps = run_one_experiment(PVSPlayer(evaluator), GreedyPlayer(evaluator))
     t_wins, t_steps = wins, steps
-    print("Greedy\t\t\t\t", wins, "\t\t", steps)
+    table_print(["Greedy", wins, steps])
+    # Alpha Beta Pruning VS MCTS:
     # PVS VS Alpha Beta Pruning:
     wins, steps = run_one_experiment(PVSPlayer(evaluator), AlphaBetaPlayer(evaluator))
     t_wins += wins
     t_steps += steps
-    print("Alpha-beta pruning\t", wins, "\t\t\t", steps)
+    table_print(["Alpha-beta pruning", wins, steps])
     # PVS VS MCTS:
     wins, steps = run_one_experiment(PVSPlayer(evaluator), MCTSPlayer())
     t_wins += wins
     t_steps += steps
-    print("Monte Carlo\t\t\t", wins, "\t\t\t", steps)
-    print("Total\t\t\t\t", t_wins, "\t\t", t_steps)
-    print("-------------------------------------------------------------------")
+    table_print(["Monte Carlo", wins, steps])
+    table_print(["Total", wins, t_steps])
     print()
 
     print("Experiment results of Monte Carlo")
-    print("-------------------------------------------------------------------")
-    print("Opponent name\t\tWin times\tMoving steps")
-    print("-------------------------------------------------------------------")
+    table_header_print(["Opponent name", "Win times", "Moving steps"])
     # MCTS VS Greedy:
     wins, steps = run_one_experiment(MCTSPlayer(), GreedyPlayer(evaluator))
     t_wins, t_steps = wins, steps
-    print("Greedy\t\t\t\t", wins, "\t\t", steps)
+    table_print(["Greedy", wins, steps])
     # MCTS VS Alpha Beta Pruning:
     wins, steps = run_one_experiment(MCTSPlayer(), AlphaBetaPlayer(evaluator))
     t_wins += wins
     t_steps += steps
-    if wins < 10:
-        print("Alpha-beta pruning\t", wins, "\t\t\t", steps)
-    else:
-        print("Alpha-beta pruning\t", wins, "\t\t", steps)
+    table_print(["Alpha-beta pruning", wins, steps])
     # MCTS VS PVS:
     wins, steps = run_one_experiment(MCTSPlayer(), PVSPlayer(evaluator))
     t_wins += wins
     t_steps += steps
-    if wins < 10:
-        print("PVS\t\t\t\t\t", wins, "\t\t\t", steps)
-    else:
-        print("PVS\t\t\t\t\t", wins, "\t\t", steps)
-    print("Total\t\t\t\t", t_wins, "\t\t", t_steps)
-    print("-------------------------------------------------------------------")
+    table_print(["PVS", wins, steps])
+    table_print(["Total", wins, t_steps])
     print()
 
 
