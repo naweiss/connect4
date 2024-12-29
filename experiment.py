@@ -44,9 +44,13 @@ def run_one_experiment(first_player, second_player) -> Tuple[int, int]:
     return first_player_wins, total_moving_steps
 
 
-def experiment(evaluator: type[Evaluator]) -> None:
-    print("Experiment results of Greedy")
+def experiment_header_print(algorithm_name: str):
+    print("Experiment results of", algorithm_name)
     table_header_print(["Opponent name", "Win times", "Moving steps"])
+
+
+def experiment(evaluator: type[Evaluator]) -> None:
+    experiment_header_print("Greedy")
     # Greedy VS Alpha Beta Pruning:
     wins, steps = run_one_experiment(GreedyPlayer(evaluator), AlphaBetaPlayer(evaluator))
     t_wins, t_steps = wins, steps
@@ -61,11 +65,10 @@ def experiment(evaluator: type[Evaluator]) -> None:
     t_wins += wins
     t_steps += steps
     table_print(["PVS", wins, steps])
-    table_print(["Total", wins, t_steps])
+    table_print(["Total", t_wins, t_steps])
     print()
 
-    print("Experiment results of Alpha-beta pruning")
-    table_header_print(["Opponent name", "Win times", "Moving steps"])
+    experiment_header_print("Alpha-beta pruning")
     # Alpha Beta Pruning VS Greedy:
     wins, steps = run_one_experiment(AlphaBetaPlayer(evaluator), GreedyPlayer(evaluator))
     t_wins, t_steps = wins, steps
@@ -80,16 +83,14 @@ def experiment(evaluator: type[Evaluator]) -> None:
     t_wins += wins
     t_steps += steps
     table_print(["PVS", wins, steps])
-    table_print(["Total", wins, t_steps])
+    table_print(["Total", t_wins, t_steps])
     print()
 
-    print("Experiment results of Principal Variation Search")
-    table_header_print(["Opponent name", "Win times", "Moving steps"])
+    experiment_header_print("Principal Variation Search")
     # PVS VS Greedy:
     wins, steps = run_one_experiment(PVSPlayer(evaluator), GreedyPlayer(evaluator))
     t_wins, t_steps = wins, steps
     table_print(["Greedy", wins, steps])
-    # Alpha Beta Pruning VS MCTS:
     # PVS VS Alpha Beta Pruning:
     wins, steps = run_one_experiment(PVSPlayer(evaluator), AlphaBetaPlayer(evaluator))
     t_wins += wins
@@ -100,11 +101,10 @@ def experiment(evaluator: type[Evaluator]) -> None:
     t_wins += wins
     t_steps += steps
     table_print(["Monte Carlo", wins, steps])
-    table_print(["Total", wins, t_steps])
+    table_print(["Total", t_wins, t_steps])
     print()
 
-    print("Experiment results of Monte Carlo")
-    table_header_print(["Opponent name", "Win times", "Moving steps"])
+    experiment_header_print("Monte Carlo")
     # MCTS VS Greedy:
     wins, steps = run_one_experiment(MCTSPlayer(), GreedyPlayer(evaluator))
     t_wins, t_steps = wins, steps
@@ -119,7 +119,7 @@ def experiment(evaluator: type[Evaluator]) -> None:
     t_wins += wins
     t_steps += steps
     table_print(["PVS", wins, steps])
-    table_print(["Total", wins, t_steps])
+    table_print(["Total", t_wins, t_steps])
     print()
 
 
